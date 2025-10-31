@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
+import html2pdf from 'html2pdf.js';
 
 import { fetchScryfallCardListByNames } from 'app/services/external/scryfall/card';
 import {
@@ -85,11 +86,20 @@ const CardListPDFGenerator = (): ReactElement => {
     }
   };
 
-  const handlePrint = (): void => {
+  const handlePrint = async (): Promise<void> => {
     const printArea = document.getElementById('print-area');
     if (!printArea) return;
 
-    window.print();
+    await html2pdf()
+      .from(printArea)
+      .set({
+        margin: 0,
+        filename:     'deck.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+      })
+      .save();
   };
 
   return (
@@ -107,7 +117,7 @@ const CardListPDFGenerator = (): ReactElement => {
           {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
         </Button>
         <Button
-          onClick={() => handlePrint()}
+          onClick={() => void handlePrint()}
           disabled={!readyToPrint}
         >
           {i18n.t(PAGES.MAIN.BUTTONS.PRINT_SAVE_PDF)}

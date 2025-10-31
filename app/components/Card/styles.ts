@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const CardBorder = styled.div`
+export const CardContainer = styled.div`
   width: 63mm;
   height: 88mm;
   border: 1px solid black;
@@ -14,13 +14,13 @@ export const CardBorder = styled.div`
   overflow: hidden;
 `;
 
-export const CardHeader = styled.div`
+export const CardName = styled.div`
   color: inherit;
   padding: 10px 10px 4px 10px;
   display: flex;
   justify-content: space-between;
   font-weight: 500;
-  font-size: 0.8em;
+  font-size: 3.2mm;
 `;
 
 export const CardType = styled.div`
@@ -30,7 +30,7 @@ export const CardType = styled.div`
   padding: 0 4px 0 4px;
   border: 1px solid black;
   border-radius: 12px;
-  font-size: 0.7em;
+  font-size: 3mm;
 `;
 
 export const CardArt = styled.div`
@@ -44,7 +44,7 @@ export const CardText = styled.div`
   color: inherit;
   flex: 1;
   padding: 0px 10px 4px 10px;
-  font-size: 0.75em;
+  font-size: 3mm;
 `;
 
 export const CardFooter = styled.div`
@@ -53,6 +53,6 @@ export const CardFooter = styled.div`
   display: flex;
   align-content: right;
   justify-content: flex-end;
-  font-size: 0.8em;
+  font-size: 4mm;
   font-weight: 600;
 `;

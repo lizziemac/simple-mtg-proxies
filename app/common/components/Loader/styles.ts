@@ -12,7 +12,7 @@ const Loading = styled.div<LoadingProps>`
   justify-content: center;
   font-style: italic;
 
-  background: ${({ theme }): string => theme.primaryColor};
+  background: ${({ theme }): string => theme.baseColor};
 
   @media only screen and (max-width:1000px){
   }

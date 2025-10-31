@@ -13,4 +13,9 @@ export const Foot = styled.div`
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   color: ${({ theme }): string => theme.textColor} !important;
+
+  // Hide footer when printing
+  @media print {
+    display: none !important;
+  }
 `;

@@ -44,6 +44,7 @@
   "dependencies": {
     "framer-motion": "^6.2.8",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.12.1",
     "i18next": "^21.8.0",
     "i18next-browser-languagedetector": "^6.1.4",
     "jspdf": "^3.0.3",

@@ -21,7 +21,7 @@ export const useTheme = (): {theme: ThemeMode, toggleTheme: () => void, isMounte
 
   const setMode = (mode: ThemeMode): void => {
     window.localStorage.setItem('theme', mode);
-    window.localStorage.setItem('bg-color', getStaticTheme(mode).primaryColor);
+    window.localStorage.setItem('bg-color', getStaticTheme(mode).baseColor);
     setTheme(mode);
   };
 

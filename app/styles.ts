@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
   .smooth {
-    background-color: ${({ theme }): string => theme.primaryColor};
+    background-color: ${({ theme }): string => theme.baseColor};
   }
 
   .preload {
@@ -21,7 +21,7 @@ export const GlobalStyles = createGlobalStyle`
     position: relative;
     margin: 0;
     min-height: 100%;
-    background-color: ${({ theme }): string => theme.primaryColor};
+    background-color: ${({ theme }): string => theme.baseColor};
     color: ${({ theme }): string => theme.textColor};
     font-family: Tahoma, Helvetica, Arial, Roboto, sans-serif;
     transition: background-color 1.5s ease;
@@ -44,16 +44,6 @@ export const GlobalStyles = createGlobalStyle`
 
   h1 {
     text-align: center;
-  }
-
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    padding: 0.2em 0.4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: ${({ theme }): string => theme.primaryDarkColor};
-    transition: background-color 1.5s ease;
-    border-radius: 6px;
   }
 
   * {

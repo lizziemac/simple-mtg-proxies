@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import {
-  CardBorder,
-  CardHeader,
+  CardContainer,
+  CardName,
   CardType,
   CardArt,
   CardText,
@@ -17,11 +17,11 @@ const Card = (props: CardProps): ReactElement => {
 
   const SingleSidedCardComponent = (card: SingleSidedCard): JSX.Element => {
     return (
-      <CardBorder>
-        <CardHeader>
+      <CardContainer>
+        <CardName>
           <div>{card.name}</div>
           <div>{card.mana_cost}</div>
-        </CardHeader>
+        </CardName>
         <CardArt />
         <CardType>{card.type_line}</CardType>
         <CardText>
@@ -37,7 +37,7 @@ const Card = (props: CardProps): ReactElement => {
           {card.power && card.toughness ? `${card.power}/${card.toughness}` : ''}
           {card.loyalty ? `${card.loyalty}` : ''}
         </CardFooter>
-      </CardBorder>
+      </CardContainer>
     );
   };
 

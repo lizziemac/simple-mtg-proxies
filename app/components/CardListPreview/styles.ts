@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  background-color: ${({ theme }): string => theme.secondaryColor};
-  color: ${({ theme }): string => theme.textColor};
+  background-color: ${({ theme }): string => theme.buttonBgColor};
+  color: ${({ theme }): string => theme.buttonTextColor};
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
@@ -11,11 +11,12 @@ export const Button = styled.button`
   margin: 5px;
 
   &:hover {
-    background-color: ${({ theme }): string => theme.hover};
+    background-color: ${({ theme }): string => theme.buttonHoverBgColor};
   }
 
   &:disabled {
-    background-color: ${({ theme }): string => theme.primaryBorderColor};
+    background-color: ${({ theme }): string => theme.buttonDisabledBgColor};
+    color: ${({ theme }): string => theme.buttonDisabledTextColor};
     cursor: not-allowed;
   }
 `;
@@ -44,9 +45,8 @@ export const PrintArea = styled.div`
     html, body, body * {
       display: none !important;
     }
-    &,
     /* Then, only reveal this element and its children */
-    & * {
+    &, & * {
       visibility: visible;
     }
 
@@ -95,7 +95,10 @@ export const Page = styled.div<PageProps>`
   justify-content: center;
   align-content: center;
   gap: 0.5mm;
+  margin-top: 0;
+
+  // show a margin when displaying, but not when printing
   @media screen {
-    margin-bottom: 1em;
+    // margin-bottom: 1em;
   }
 `;
