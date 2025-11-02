@@ -5,6 +5,7 @@ import { DEFAULT_DELAY_MS } from 'app/common/constants';
 import Loader from 'app/common/components/Loader';
 import { smoothLazy } from 'app/common/helpers';
 import Footer from './Footer';
+import { Layout, MainContent } from './styles';
 
 
 const Home = smoothLazy(() => import('./Home'), DEFAULT_DELAY_MS);
@@ -16,21 +17,21 @@ interface PagesProps {
 
 const Pages = (props: PagesProps): ReactElement => (
   <Suspense fallback={<Loader />}>
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '105vh' }}>
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Outlet />
-          </>
-        }>
-          <Route index element={<Home />} />
-          <Route path='*' element={<NotFound />} />
-        </Route>
-      </Routes>
-      <div style={{ paddingTop: '1em' }}>
-        <Footer toggleTheme={props.toggleTheme}/>
-      </div>
-    </div>
+    <Layout>
+      <MainContent>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <Outlet />
+            </>
+          }>
+            <Route index element={<Home />} />
+            <Route path='*' element={<NotFound />} />
+          </Route>
+        </Routes>
+      </MainContent>
+      <Footer toggleTheme={props.toggleTheme}/>
+    </Layout>
   </Suspense>
 );
 

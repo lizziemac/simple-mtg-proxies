@@ -1,31 +1,29 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
-  background-color: ${({ theme }): string => theme.buttonBgColor};
-  color: ${({ theme }): string => theme.buttonTextColor};
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 1em;
-  cursor: pointer;
-  margin: 5px;
+export const PreviewContainerParent = styled.div`
+  height: 100%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-  &:hover {
-    background-color: ${({ theme }): string => theme.buttonHoverBgColor};
-  }
+export const PreviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+  text-align: left;
 
-  &:disabled {
-    background-color: ${({ theme }): string => theme.buttonDisabledBgColor};
-    color: ${({ theme }): string => theme.buttonDisabledTextColor};
-    cursor: not-allowed;
+  @media screen and (max-width:1000px) {
+    width: 100%;
   }
 `;
 
-export const ButtonContainer = styled.div`
+export const ActionButtonsContainer = styled.div`
   display: flex;
   gap: 10px;
-  margin-top: 10px;
-  justify-content: center;
+  justify-content: right;
 `;
 
 export const PrintArea = styled.div`
@@ -33,29 +31,13 @@ export const PrintArea = styled.div`
   justify-content: center;
 
   @media print {
+    // Remove the default padding, text, etc from printing a browser window
     @page {
-      margin: 0;
-    }
-    body {
       margin: 0;
       padding: 0;
     }
 
-    /* Hide everything except this area (if using that technique) */
-    html, body, body * {
-      display: none !important;
-    }
-    /* Then, only reveal this element and its children */
-    &, & * {
-      visibility: visible;
-    }
-
-    /* Ensure cards/grid don’t get split awkwardly */
-    & {
-      page-break-inside: avoid;
-    }
-
-    /* Also position it at the top left so it appears first page */
+    /* This hides the other HTML on the page */
     position: absolute;
     left: 0;
     top: 0;
@@ -64,6 +46,7 @@ export const PrintArea = styled.div`
 `;
 
 interface PageProps {
+  pdfMode: boolean;
   card: {
     /**
      * The width of a single card in millimeters
@@ -94,11 +77,18 @@ export const Page = styled.div<PageProps>`
   grid-template-rows: ${({ card }): string => `repeat(3, ${card.height}mm)`};
   justify-content: center;
   align-content: center;
-  gap: 0.5mm;
-  margin-top: 0;
 
-  // show a margin when displaying, but not when printing
   @media screen {
-    // margin-bottom: 1em;
+    margin-bottom: ${({ pdfMode }): string => `${pdfMode ? '0em': '1em'}`};
+  }
+
+  &.pdf-mode {
+    margin: 0 !important;
+    padding: 0;
+  }
+  
+  @media print {
+    margin: 0;
+    padding: 0;
   }
 `;

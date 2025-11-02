@@ -1,18 +1,11 @@
 import styled from 'styled-components';
 
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 export const Input = styled.textarea`
-  display: flex;
-  justify-content: center;
-  width: 50%;
+  width: 100%;
+  padding: 0.5em;
   height: 20em;
   font-size: 1em;
-  padding: 10px;
+  box-sizing: border-box;
   border: 1px solid ${({ theme }): string => theme.inputBorderColor};
   border-radius: 5px;
   background-color: ${({ theme }): string =>  theme.inputBgColor};
@@ -26,6 +19,7 @@ export const Input = styled.textarea`
   }
 
   @media only screen and (max-width:1000px){
-    width: 90%;
+    height: auto;
+    min-height: 8em;
   }
 `;

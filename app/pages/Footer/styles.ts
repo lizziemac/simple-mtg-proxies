@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Foot = styled.div`
   width: 100%;
   display: flex;
-  position: absolute;
+  position: static;
   justify-content: center;
   flex-direction: row;
   align-items: center;
@@ -13,6 +13,10 @@ export const Foot = styled.div`
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   color: ${({ theme }): string => theme.textColor} !important;
+
+  @media screen and (max-width:1000px){
+    padding-top: ${({ theme }): string => `${theme.mediaFontSize}`}
+  }
 
   // Hide footer when printing
   @media print {

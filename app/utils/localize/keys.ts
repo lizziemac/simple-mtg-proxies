@@ -23,7 +23,7 @@ export const PAGES = {
     INPUT_ERROR: 'main_input_error',
     BUTTONS: {
       GENERATE_PREVIEW: 'main_buttons_generate_preview',
-      PRINT_SAVE_PDF: 'main_buttons_print_save_pdf',
+      PRINT: 'main_buttons_PRINT',
     },
     LOADERS: {
       GENERATING_PREVIEW: 'main_loaders_generating_preview',

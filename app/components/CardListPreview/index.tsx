@@ -7,24 +7,33 @@ import {
   isDoubleSidedCard,
 } from 'app/types/external/scryfall';
 import CardComponent from 'app/components/Card';
-import { Button, PrintArea, Page, ButtonContainer } from './styles';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Loader from 'app/common/components/Loader';
+import Button from 'app/common/components/Button';
+
+import { PrintArea, Page, PreviewContainerParent, PreviewContainer, ActionButtonsContainer } from './styles';
 import CardListInput from '../CardListInput';
 
 import i18n, { PAGES } from 'app/utils/localize';
+import { isMobile } from 'app/utils/helpers';
+import { Printer } from 'lucide-react';
 
 const CARDS_PER_PAGE = 9; // 3 columns x 3 rows
 
 const CardListPDFGenerator = (): ReactElement => {
   const [cardList, setCardList] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hasError, setHasError] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [readyToPrint, setReadyToPrint] = useState<boolean>(false);
+  const [isPdfMode, setIsPdfMode] = useState<boolean>(false);
 
   const [cardData, setCardData] = useState<Card[]>([]);
   const [pages, setPages] = useState<Card[][]>([]);
 
+  const printAreaRef = useRef<HTMLDivElement>(null);
   const lastPageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -90,63 +99,78 @@ const CardListPDFGenerator = (): ReactElement => {
     const printArea = document.getElementById('print-area');
     if (!printArea) return;
 
-    await html2pdf()
-      .from(printArea)
-      .set({
-        margin: 0,
-        filename:     'deck.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-      })
-      .save();
+    if (!isMobile()) {
+      window.print();
+    } else {
+      //convert to PDF and then open in new window
+      setIsPdfMode(true);
+      await html2pdf()
+        .from(printArea)
+        .set({
+          margin: 0,
+          filename:     'deck.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2 },
+          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+        })
+        .output('blob')
+        .then((blob: Blob) => {
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+        });
+      setIsPdfMode(false);
+    }
   };
 
   return (
-    <>
-      <p>{i18n.t(PAGES.MAIN.DESCRIPTION)}</p>
-      <CardListInput
-        cardList={cardList}
-        onChange={setCardList}
-      />
-      <ButtonContainer>
-        <Button
-          onClick={() => void fetchCardData()}
-          disabled={isLoading || cardList.length === 0}
-        >
-          {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
-        </Button>
-        <Button
-          onClick={() => void handlePrint()}
-          disabled={!readyToPrint}
-        >
-          {i18n.t(PAGES.MAIN.BUTTONS.PRINT_SAVE_PDF)}
-        </Button>
-      </ButtonContainer>
-      {isLoading &&
-        <Loader message={i18n.t(PAGES.MAIN.LOADERS.GENERATING_PREVIEW)} height='20vh'/>
-      }
-      {hasError && <div style={{ color: 'red' }}>{errorMessage}</div>}
-      {pages.length > 0 && (
-        <PrintArea id='print-area'>
-          {pages.map((pageCards: Card[], pageIndex: number) => (
-            <Page
-              key={`page-${pageIndex}`}
-              paper={{ width: 215.9, height: 279.4 }}
-              card={{ width: 63, height: 88 }}
-              ref={pageIndex === pages.length - 1 ? lastPageRef : null}
-            >
-              {pageCards.map((card: Card, cardIndex: number) => (
-                <CardComponent
-                  key={`card-${pageIndex}-${cardIndex}`}
-                  card={card}
-                />
-              ))}
-            </Page>
-          ))}
-        </PrintArea>
-      )}
-    </>
+    <PreviewContainerParent>
+      <PreviewContainer>
+        <p>{i18n.t(PAGES.MAIN.DESCRIPTION)}</p>
+        <CardListInput
+          cardList={cardList}
+          onChange={setCardList}
+        />
+        <ActionButtonsContainer>
+          <Button
+            onClick={() => void fetchCardData()}
+            disabled={isLoading || cardList.length === 0}
+          >
+            {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
+          </Button>
+          <Button
+            onClick={() => void handlePrint()}
+            disabled={!readyToPrint}
+          >
+            {i18n.t(PAGES.MAIN.BUTTONS.PRINT)}
+            <Printer size='20' />
+          </Button>
+        </ActionButtonsContainer>
+        {/* {isLoading &&
+          <Loader message={i18n.t(PAGES.MAIN.LOADERS.GENERATING_PREVIEW)} height='20vh'/>
+        }
+        {hasError && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
+        {pages.length > 0 && (
+          <PrintArea id='print-area' ref={printAreaRef}>
+            {pages.map((pageCards: Card[], pageIndex: number) => (
+              <Page
+                key={`page-${pageIndex}`}
+                paper={{ width: 215.9, height: 279.4 }}
+                card={{ width: 63, height: 88 }}
+                pdfMode={isPdfMode}
+                ref={pageIndex === pages.length - 1 ? lastPageRef : null}
+              >
+                {pageCards.map((card: Card, cardIndex: number) => (
+                  <CardComponent
+                    key={`card-${pageIndex}-${cardIndex}`}
+                    card={card}
+                  />
+                ))}
+              </Page>
+            ))}
+          </PrintArea>
+        )}
+      </PreviewContainer>
+    </PreviewContainerParent>
   );
 };
 

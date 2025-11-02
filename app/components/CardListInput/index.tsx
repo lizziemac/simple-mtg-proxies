@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode, useState } from 'react';
-import { Input, InputContainer } from './styles';
+import { Input } from './styles';
 import i18n, { PAGES } from 'app/utils/localize';
 
 interface CardListInputProps {
@@ -45,14 +45,14 @@ const CardListInput = (props: CardListInputProps): ReactElement => {
   };
 
   return (
-    <InputContainer>
+    <>
       <Input onChange={(e) => handleChange(e)}/>
       {!isValid && (
         <div>
           <p>{i18n.t(PAGES.MAIN.INPUT_ERROR)}</p>
         </div>
       )}
-    </InputContainer>
+    </>
   );
 };
 
