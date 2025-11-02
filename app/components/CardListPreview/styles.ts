@@ -11,8 +11,9 @@ export const PreviewContainerParent = styled.div`
 export const PreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
   width: 80%;
+  max-width: 60rem;
   text-align: left;
 
   @media screen and (max-width:1000px) {
@@ -22,8 +23,12 @@ export const PreviewContainer = styled.div`
 
 export const ActionButtonsContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
   justify-content: right;
+
+  @media screen and (max-width: 1000px) {
+    gap: 1rem;
+  }
 `;
 
 export const PrintArea = styled.div`

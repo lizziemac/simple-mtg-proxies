@@ -1,0 +1,44 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - 'webpack.dev.js'
+      - 'jest.config.js'
+      - '.gitignore'
+      - '.eslint*'
+      - '.husky'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Building
+
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.LIGHTNING_MACLEAN_APP_ID }}
+          private-key: ${{ secrets.LIGHTNING_MACLEAN_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Push to dist-build branch
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
+        with:
+          branch: dist-build
+          folder: dist
+          token: ${{ steps.generate-token.outputs.token }}

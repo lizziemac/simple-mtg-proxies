@@ -7,24 +7,21 @@ import {
   isDoubleSidedCard,
 } from 'app/types/external/scryfall';
 import CardComponent from 'app/components/Card';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Loader from 'app/common/components/Loader';
 import Button from 'app/common/components/Button';
 
 import { PrintArea, Page, PreviewContainerParent, PreviewContainer, ActionButtonsContainer } from './styles';
 import CardListInput from '../CardListInput';
 
+import { Size } from 'app/common/constants';
 import i18n, { PAGES } from 'app/utils/localize';
 import { isMobile } from 'app/utils/helpers';
-import { Printer } from 'lucide-react';
 
 const CARDS_PER_PAGE = 9; // 3 columns x 3 rows
 
 const CardListPDFGenerator = (): ReactElement => {
   const [cardList, setCardList] = useState<string[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hasError, setHasError] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [readyToPrint, setReadyToPrint] = useState<boolean>(false);
@@ -132,23 +129,24 @@ const CardListPDFGenerator = (): ReactElement => {
         />
         <ActionButtonsContainer>
           <Button
+            size={Size.M}
             onClick={() => void fetchCardData()}
-            disabled={isLoading || cardList.length === 0}
+            disabled={isLoading || cardList.length === 0 || readyToPrint}
           >
             {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
           </Button>
           <Button
+            size={Size.M}
             onClick={() => void handlePrint()}
             disabled={!readyToPrint}
           >
             {i18n.t(PAGES.MAIN.BUTTONS.PRINT)}
-            <Printer size='20' />
           </Button>
         </ActionButtonsContainer>
-        {/* {isLoading &&
+        {isLoading &&
           <Loader message={i18n.t(PAGES.MAIN.LOADERS.GENERATING_PREVIEW)} height='20vh'/>
         }
-        {hasError && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
+        {hasError && <div style={{ color: 'red' }}>{errorMessage}</div>}
         {pages.length > 0 && (
           <PrintArea id='print-area' ref={printAreaRef}>
             {pages.map((pageCards: Card[], pageIndex: number) => (

@@ -1,16 +1,16 @@
 import { ReactElement, ReactNode } from 'react';
 import { StyledButton } from './styles';
+import { Size } from 'app/common/constants';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: ReactNode,
-  iconPosition?: 'left' | 'right',
+  size?: Size,
+  iconOnly?: boolean,
   children: ReactNode,
 }
 
 const Button = (props: ButtonProps): ReactElement => {
   return (
     <StyledButton {...props} >
-      { props.icon }
       { props.children }
     </StyledButton>
   );
