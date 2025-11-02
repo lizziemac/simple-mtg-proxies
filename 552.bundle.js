@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksimple_mtg_proxies=self.webpackChunksimple_mtg_proxies||[]).push([[552],{1552:(e,s,i)=>{i.r(s),i.d(s,{default:()=>r});var l=i(4848),p=i(4505);const r=()=>(0,l.jsx)("div",{children:(0,l.jsx)("h1",{children:p.Ay.t(p.Nb.NOT_FOUND.TITLE)})})}}]);
