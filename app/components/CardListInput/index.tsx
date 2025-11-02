@@ -48,9 +48,7 @@ const CardListInput = (props: CardListInputProps): ReactElement => {
     <>
       <Input onChange={(e) => handleChange(e)}/>
       {!isValid && (
-        <div>
-          <p>{i18n.t(PAGES.MAIN.INPUT_ERROR)}</p>
-        </div>
+        <p>{i18n.t(PAGES.MAIN.INPUT_ERROR)}</p>
       )}
     </>
   );
