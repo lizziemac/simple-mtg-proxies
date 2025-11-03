@@ -4,7 +4,7 @@ export interface ApiOptions extends RequestInit {
   params?: Record<string, string | number | boolean>;
 }
 
-export async function api<T>(baseUrl: string, endpoint: string, options: ApiOptions = {}): Promise<T> {
+export async function api(baseUrl: string, endpoint: string, options: ApiOptions = {}): Promise<unknown> {
   const url = new URL(`${baseUrl}${endpoint}`);
 
   if (options.params) {
@@ -28,5 +28,5 @@ export async function api<T>(baseUrl: string, endpoint: string, options: ApiOpti
     throw new Error(`${i18n.t(API.ERRORS.GENERIC)} ${response.status} ${response.statusText}`);
   }
 
-  return (await response.json()) as T;
+  return await response.json();
 }

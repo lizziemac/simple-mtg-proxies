@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+
 import {
   CardContainer,
   CardName,
@@ -6,28 +7,76 @@ import {
   CardArt,
   CardText,
   CardFooter,
+  CardSymbol,
 } from './styles';
-import { Card, DoubleSidedCard, SingleSidedCard, isDoubleSidedCard } from 'app/types/external/scryfall';
+import { Card, DoubleSidedCard, SingleSidedCard, isDoubleSidedCard } from 'app/types/external/scryfall/card';
+import { SymbolMap } from 'app/types/external/scryfall/symbol';
 
 interface CardProps {
   card: Card;
+  symbolLookup: SymbolMap;
 }
 
 const Card = (props: CardProps): ReactElement => {
+  function renderWithSymbols(
+    text: string
+  ): React.ReactNode[] {
+    const tokenRegex = /\{[^}]+\}/g; // Regex to match '{X}'
+
+    const parts: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    let match: RegExpExecArray | null;
+    // iterate through each regex match for the incoming string
+    while ((match = tokenRegex.exec(text)) !== null) {
+      const token = match[0];
+      const index = match.index;
+
+      // Push preceding text, if there is any
+      if (index > lastIndex) {
+        parts.push(text.slice(lastIndex, index));
+      }
+
+      // Determine replacement SVG
+      const symbol = props.symbolLookup[token];
+      if (symbol) {
+        parts.push(
+          <CardSymbol
+            key={index}
+            src={symbol.svg_uri}
+            alt={symbol.english}
+            style={{ display: 'inline', verticalAlign: 'middle' }}
+          />
+        );
+      } else {
+        // If no symbol found, just render the token as plain text
+        parts.push(token);
+      }
+
+      lastIndex = index + token.length; // update the last index to the last character we used
+    }
+
+    // Push remainder text once we've iterated through all {X}
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex));
+    }
+
+    return parts;
+  }
 
   const SingleSidedCardComponent = (card: SingleSidedCard): JSX.Element => {
     return (
       <CardContainer>
         <CardName>
           <div>{card.name}</div>
-          <div>{card.mana_cost}</div>
+          <div>{renderWithSymbols(card.mana_cost)}</div>
         </CardName>
         <CardArt />
         <CardType>{card.type_line}</CardType>
         <CardText>
           {card.oracle_text.split('\n').map((line, idx) => (
             <span key={idx}>
-              {line}
+              {renderWithSymbols(line)}
               <br />
             </span>
           ))}

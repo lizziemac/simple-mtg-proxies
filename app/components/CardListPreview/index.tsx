@@ -5,7 +5,7 @@ import { fetchScryfallCardListByNames } from 'app/services/external/scryfall/car
 import {
   Card,
   isDoubleSidedCard,
-} from 'app/types/external/scryfall';
+} from 'app/types/external/scryfall/card';
 import CardComponent from 'app/components/Card';
 import Loader from 'app/common/components/Loader';
 import Button from 'app/common/components/Button';
@@ -16,6 +16,8 @@ import CardListInput from '../CardListInput';
 import { Size } from 'app/common/constants';
 import i18n, { PAGES } from 'app/utils/localize';
 import { isMobile } from 'app/utils/helpers';
+import { getSymbolLookup } from 'app/services/external/scryfall/symbol';
+import { SymbolMap } from 'app/types/external/scryfall/symbol';
 
 const CARDS_PER_PAGE = 9; // 3 columns x 3 rows
 
@@ -32,6 +34,26 @@ const CardListPDFGenerator = (): ReactElement => {
 
   const printAreaRef = useRef<HTMLDivElement>(null);
   const lastPageRef = useRef<HTMLDivElement>(null);
+  const [symbolLookup, setSymbolLookup] = useState<SymbolMap>({});
+
+  useEffect(() => {
+    let active = true;
+    async function loadSymbols(): Promise<void> {
+      try {
+        const symbols = await getSymbolLookup();
+        if (active) setSymbolLookup(symbols);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    void loadSymbols();
+
+    return (): void => {
+      active = false; // cancel state updates if unmounted
+    };
+  }, []);
+
 
   useEffect(() => {
     setReadyToPrint(false);
@@ -147,7 +169,7 @@ const CardListPDFGenerator = (): ReactElement => {
           <Loader message={i18n.t(PAGES.MAIN.LOADERS.GENERATING_PREVIEW)} height='20vh'/>
         }
         {hasError && <div style={{ color: 'red' }}>{errorMessage}</div>}
-        {pages.length > 0 && (
+        {!isLoading && pages.length > 0 && (
           <PrintArea id='print-area' ref={printAreaRef}>
             {pages.map((pageCards: Card[], pageIndex: number) => (
               <Page
@@ -159,6 +181,7 @@ const CardListPDFGenerator = (): ReactElement => {
               >
                 {pageCards.map((card: Card, cardIndex: number) => (
                   <CardComponent
+                    symbolLookup={symbolLookup}
                     key={`card-${pageIndex}-${cardIndex}`}
                     card={card}
                   />
