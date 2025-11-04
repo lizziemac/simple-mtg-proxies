@@ -118,9 +118,7 @@ const CardListPDFGenerator = (): ReactElement => {
     const printArea = document.getElementById('print-area');
     if (!printArea) return;
 
-    if (!isMobile()) {
-      window.print();
-    } else {
+    if (isMobile() || localStorage.getItem('TESTING_HTML2PDF') === 'true') {
       //convert to PDF and then open in new window
       setIsPdfMode(true);
       await html2pdf()
@@ -129,7 +127,7 @@ const CardListPDFGenerator = (): ReactElement => {
           margin: 0,
           filename:     'deck.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2 },
+          html2canvas:  { scale: 2, useCORS: true },
           jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
         })
         .output('blob')
@@ -138,6 +136,8 @@ const CardListPDFGenerator = (): ReactElement => {
           window.open(url, '_blank');
         });
       setIsPdfMode(false);
+    } else {
+      window.print();
     }
   };
 
