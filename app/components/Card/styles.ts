@@ -14,11 +14,6 @@ export const CardContainer = styled.div`
   overflow: hidden;
 `;
 
-export const CardSymbol = styled.img`
-  min-width: 3mm;
-  height: 3mm;
-`;
-
 export const CardName = styled.div`
   color: inherit;
   padding: 10px 10px 4px 10px;

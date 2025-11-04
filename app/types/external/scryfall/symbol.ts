@@ -18,9 +18,9 @@ export interface Symbol {
    */
   symbol: string,
   /**
-   * The URI for the SVG image
+   * The "name" of the symbol, basically the same as 'symbol' without the curly brackets
    */
-  svg_uri: string,
+  name: string,
   /**
    * The description of what the symbol means (e.g. "tap this permanent")
    */

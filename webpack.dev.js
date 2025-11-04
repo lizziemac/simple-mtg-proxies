@@ -1,3 +1,4 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
@@ -10,6 +11,9 @@ module.exports = merge(common, {
     open: true,
     port: 1337,
     historyApiFallback: true,  // redirects 404s to index.html
+    static: {
+      directory: path.resolve(__dirname, 'app/public'), // serve public folder as statis assets
+    },
   },
   output: {
     publicPath: '/',          // specify base path for all assets in the app

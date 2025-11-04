@@ -11,7 +11,7 @@ export async function fetchScryfallCardByName(cardName: string, quantity: number
   if (cached) {
     const parsed: CachedItem<Card> = JSON.parse(cached) as unknown as CachedItem<Card>;
     if (Date.now() - parsed.last_updated_at < CACHE_TTL) {
-      return parsed.data;
+      return { ...parsed.data, quantity };
     }
   }
 
@@ -22,7 +22,7 @@ export async function fetchScryfallCardByName(cardName: string, quantity: number
   }) as Card;
 
   const cacheItem: CachedItem<Card> = {
-    data: { ...card, quantity },
+    data: card,
     last_updated_at: Date.now()
   };
   sessionStorage.setItem(key, JSON.stringify(cacheItem));

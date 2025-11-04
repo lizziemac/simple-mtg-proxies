@@ -127,7 +127,7 @@ const CardListPDFGenerator = (): ReactElement => {
           margin: 0,
           filename:     'deck.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS: true },
+          html2canvas:  { scale: 2, allowTaint: true },
           jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
         })
         .output('blob')

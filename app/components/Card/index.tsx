@@ -7,10 +7,10 @@ import {
   CardArt,
   CardText,
   CardFooter,
-  CardSymbol,
 } from './styles';
 import { Card, DoubleSidedCard, SingleSidedCard, isDoubleSidedCard } from 'app/types/external/scryfall/card';
 import { SymbolMap } from 'app/types/external/scryfall/symbol';
+import CardSymbol from '../CardSymbol';
 
 interface CardProps {
   card: Card;
@@ -41,12 +41,7 @@ const Card = (props: CardProps): ReactElement => {
       const symbol = props.symbolLookup[token];
       if (symbol) {
         parts.push(
-          <CardSymbol
-            key={index}
-            src={symbol.svg_uri}
-            alt={symbol.english}
-            style={{ display: 'inline', verticalAlign: 'middle' }}
-          />
+          <CardSymbol key={index} name={symbol.name} />
         );
       } else {
         // If no symbol found, just render the token as plain text

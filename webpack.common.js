@@ -10,7 +10,8 @@ module.exports = {
     rules: [                                  // define how to convert files
       { test: /\.(tsx|ts)$/, use: 'ts-loader', exclude: /node_modules/ },
       { test: /\.(css)$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.(jpe?g|png|gif)$/, type: 'asset/resource' }
+      { test: /\.(jpe?g|png|gif)$/, type: 'asset/resource' },
+      { test: /\.svg$/, use: '@svgr/webpack'},
     ]
   },
   output: {
