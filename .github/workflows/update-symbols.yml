@@ -41,8 +41,8 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           branch="update-scryfall-symbols"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "lightning-maclean[bot]"
+          git config user.email "lightning-maclean[bot]@users.noreply.github.com"
 
           # Create or switch to branch
           git checkout -B "$branch"
