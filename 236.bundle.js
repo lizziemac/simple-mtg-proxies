@@ -47,7 +47,9 @@
   min-width: 3mm;
   height: 3mm;
   vertical-align: middle;
-`,b=e=>{const t=E[`${e.name}.svg`];return t?(0,r.jsx)(x,{as:t}):null},y=e=>{function t(e){const t=/\{[^}]+\}/g,n=[];let l,c=0;for(;null!==(l=t.exec(e));){const t=l[0],a=t.replaceAll(/[{}]/g,""),i=l.index;i>c&&n.push(e.slice(c,i));const s=(0,r.jsx)(b,{name:a},i);s?n.push(s):n.push(t),c=i+t.length}return c<e.length&&n.push(e.slice(c)),n}const n=e=>(0,r.jsxs)(g,{children:[(0,r.jsxs)(q,{children:[(0,r.jsx)("div",{children:e.name}),(0,r.jsx)("div",{children:t(e.mana_cost)})]}),(0,r.jsx)(d,{}),(0,r.jsx)(h,{children:e.type_line}),(0,r.jsx)(p,{children:e.oracle_text.split("\n").map(((e,n)=>(0,r.jsxs)("span",{children:[t(e),(0,r.jsx)("br",{})]},n)))}),(0,r.jsxs)(w,{children:[e.power&&e.toughness?`${e.power}/${e.toughness}`:"",e.loyalty?`${e.loyalty}`:""]})]});return(0,r.jsx)(r.Fragment,{children:v(e.card)?(l=e.card,(0,r.jsx)(r.Fragment,{children:l.card_faces.map((e=>(0,r.jsx)(n,{...e},e.name)))})):n(e.card)});var l};var C=n(8431);const O=m.Ay.button`
+  overflow: visible; /* prevents clipping */
+  transform: translateY(-8%);
+`,b=e=>{const t=E[`${e.name}.svg`];return t?(0,r.jsx)(x,{as:t}):null},y=e=>{function t(e){const t=/\{[^}]+\}/g,n=[];let l,c=0;for(;null!==(l=t.exec(e));){const t=l[0],a=t.replaceAll(/[{}]/g,"").replaceAll("/","|"),i=l.index;i>c&&n.push(e.slice(c,i));const s=(0,r.jsx)(b,{name:a},i);s?n.push(s):n.push(t),c=i+t.length}return c<e.length&&n.push(e.slice(c)),n}const n=e=>(0,r.jsxs)(g,{children:[(0,r.jsxs)(q,{children:[(0,r.jsx)("div",{children:e.name}),(0,r.jsx)("div",{children:t(e.mana_cost)})]}),(0,r.jsx)(d,{}),(0,r.jsx)(h,{children:e.type_line}),(0,r.jsx)(p,{children:e.oracle_text.split("\n").map(((e,n)=>(0,r.jsxs)("span",{children:[t(e),(0,r.jsx)("br",{})]},n)))}),(0,r.jsxs)(w,{children:[e.power&&e.toughness?`${e.power}/${e.toughness}`:"",e.loyalty?`${e.loyalty}`:""]})]});return(0,r.jsx)(r.Fragment,{children:v(e.card)?(l=e.card,(0,r.jsx)(r.Fragment,{children:l.card_faces.map((e=>(0,r.jsx)(n,{...e},e.name)))})):n(e.card)});var l};var C=n(8431);const O=m.Ay.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
