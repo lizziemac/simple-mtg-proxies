@@ -30,7 +30,7 @@ const Card = (props: CardProps): ReactElement => {
     // iterate through each regex match for the incoming string
     while ((match = tokenRegex.exec(text)) !== null) {
       const token = match[0];
-      const symbol = token.replaceAll(/[{}]/g, '');
+      const symbol = token.replaceAll(/[{}]/g, '').replaceAll('/', '|');
       const index = match.index;
 
       // Push preceding text, if there is any
