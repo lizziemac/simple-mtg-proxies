@@ -4,7 +4,6 @@ const common = require('./webpack.common.js');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -12,6 +11,7 @@ module.exports = merge(common, {
     splitChunks: {
       chunks: 'all'
     },
+    moduleIds: 'deterministic',
     minimize: true,
     minimizer: [
       new HtmlMinimizerPlugin(),
@@ -20,10 +20,5 @@ module.exports = merge(common, {
     ],
   },
   plugins: [
-    new CopyPlugin({
-      patterns: [
-        { from: 'app/public', to: '' } // supply assets to dist
-      ]
-    })
   ]
 });
