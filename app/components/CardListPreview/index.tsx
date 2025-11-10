@@ -31,6 +31,7 @@ const CardListPDFGenerator = (): ReactElement => {
   const [isPdfMode, setIsPdfMode] = useState<boolean>(false);
 
   const [cardData, setCardData] = useState<Card[]>([]);
+  const [uniqueCards, setUniqueCards] = useState<Map<string, number>>(new Map());
   const [pages, setPages] = useState<Card[][]>([]);
 
   const printAreaRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,20 @@ const CardListPDFGenerator = (): ReactElement => {
 
 
   useEffect(() => {
+    setHasError(false);
+    setErrorMessage('');
+    const unique: Map<string, number> = new Map<string, number>();
+    for (const cardName of cardList) {
+      unique.set(
+        cardName,
+        (unique.get(cardName) ?? 0) + 1
+      );
+    }
+    if (unique.size > 120 ) {
+      setHasError(true);
+      setErrorMessage(i18n.t(PAGES.MAIN.INPUT_LENGTH_ERROR));
+    }
+    setUniqueCards(unique);
     setReadyToPrint(false);
   }, [cardList]);
 
@@ -92,14 +107,6 @@ const CardListPDFGenerator = (): ReactElement => {
     setErrorMessage('');
     setIsLoading(true);
     setCardData([]);
-
-    const uniqueCards: Map<string, number> = new Map<string, number>();
-    for (const cardName of cardList) {
-      uniqueCards.set(
-        cardName,
-        (uniqueCards.get(cardName) ?? 0) + 1
-      );
-    }
 
     try {
       const cards = await fetchScryfallCardListByNames(uniqueCards);
@@ -161,7 +168,7 @@ const CardListPDFGenerator = (): ReactElement => {
           <Button
             size={Size.M}
             onClick={() => void fetchCardData()}
-            disabled={isLoading || cardList.length === 0 || readyToPrint}
+            disabled={isLoading || cardList.length === 0 || uniqueCards.size > 120 || readyToPrint}
           >
             {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
           </Button>

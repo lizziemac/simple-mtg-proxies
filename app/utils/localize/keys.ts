@@ -24,6 +24,7 @@ export const PAGES = {
     NAV_LINK: 'main_nav_link',
     DESCRIPTION: 'main_description',
     INPUT_ERROR: 'main_input_error',
+    INPUT_LENGTH_ERROR: 'main_input_length_error',
     BUTTONS: {
       GENERATE_PREVIEW: 'main_buttons_generate_preview',
       PRINT: 'main_buttons_PRINT',

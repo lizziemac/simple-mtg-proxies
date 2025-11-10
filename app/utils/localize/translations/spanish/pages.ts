@@ -21,6 +21,7 @@ export default {
   [PAGES.MAIN.INPUT_ERROR]: (
     'Actualmente, el formato solo admite líneas que comiencen con una cantidad seguida del nombre de la carta.'
   ),
+  [PAGES.MAIN.INPUT_LENGTH_ERROR]: 'Por favor, ingrese menos de 120 tarjetas a la vez.',
   [PAGES.MAIN.BUTTONS.GENERATE_PREVIEW]: 'Previa',
   [PAGES.MAIN.BUTTONS.PRINT]: 'Imprimir',
 };
