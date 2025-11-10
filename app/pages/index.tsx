@@ -1,7 +1,7 @@
 import { ReactElement, Suspense } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
-import { DEFAULT_DELAY_MS } from 'app/common/constants';
+import { DEFAULT_DELAY_MS } from 'app/constants';
 import Loader from 'app/common/components/Loader';
 import { smoothLazy } from 'app/common/helpers';
 import Footer from './Footer';

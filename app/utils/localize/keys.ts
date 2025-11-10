@@ -16,7 +16,10 @@ export const COMMON = {
 };
 
 export const PAGES = {
-  FOOTER: 'footer',
+  FOOTER: {
+    COPYRIGHT: 'footer_copyright',
+    DISCLAIMER: 'footer_disclaimer'
+  },
   MAIN: {
     NAV_LINK: 'main_nav_link',
     DESCRIPTION: 'main_description',

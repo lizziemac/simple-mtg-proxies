@@ -1,0 +1,1 @@
+export const SCRYFALL_BASE_URL: string = 'https://api.scryfall.com';

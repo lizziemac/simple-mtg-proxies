@@ -1,6 +1,7 @@
 import i18n, { COMMON } from 'app/utils/localize';
 import { ReactElement } from 'react';
-import Loading, { Ripple } from './styles';
+import { Ripple } from 'app/common/components/Ripple';
+import Loading from './styles';
 
 interface LoaderProps {
   message?: string;
@@ -10,11 +11,7 @@ interface LoaderProps {
 const Loader = (props: LoaderProps): ReactElement => {
   return (
     <Loading height={props.height}>
-      <Ripple>
-        <div></div>
-        <div></div>
-        <div></div>
-      </Ripple>
+      <Ripple />
       {props.message ?? i18n.t(COMMON.COMPONENTS.LOADER.MESSAGE)}
     </Loading>
   );

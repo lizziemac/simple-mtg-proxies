@@ -8,7 +8,7 @@ import es from './locales/es';
 
 const languageDetectorOptions = {
   // order and from where user language should be detected
-  order: ['querystring', 'navigator', 'localStorage', 'sessionStorage', 'cookie', 'htmlTag', 'path', 'subdomain'],
+  order: ['querystring', 'navigator', 'localStorage', 'localStorage', 'cookie', 'htmlTag', 'path', 'subdomain'],
 
   // keys or params to lookup language from
   lookupQuerystring: 'lng',

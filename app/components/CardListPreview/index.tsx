@@ -13,11 +13,12 @@ import Button from 'app/common/components/Button';
 import { PrintArea, Page, PreviewContainerParent, PreviewContainer, ActionButtonsContainer } from './styles';
 import CardListInput from '../CardListInput';
 
-import { Size } from 'app/common/constants';
+import { Size } from 'app/constants';
 import i18n, { PAGES } from 'app/utils/localize';
 import { isMobile } from 'app/utils/helpers';
 import { getSymbolLookup } from 'app/services/external/scryfall/symbol';
 import { SymbolMap } from 'app/types/external/scryfall/symbol';
+import { Ripple } from 'app/common/components/Ripple';
 
 const CARDS_PER_PAGE = 9; // 3 columns x 3 rows
 
@@ -120,22 +121,29 @@ const CardListPDFGenerator = (): ReactElement => {
 
     if (isMobile() || localStorage.getItem('TESTING_HTML2PDF') === 'true') {
       //convert to PDF and then open in new window
-      setIsPdfMode(true);
-      await html2pdf()
-        .from(printArea)
-        .set({
-          margin: 0,
-          filename:     'deck.pdf',
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, allowTaint: true },
-          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        })
-        .output('blob')
-        .then((blob: Blob) => {
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
-        });
-      setIsPdfMode(false);
+      try {
+        setIsPdfMode(true);
+
+        await html2pdf()
+          .from(printArea)
+          .set({
+            margin: 0,
+            filename:     'deck.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, allowTaint: true },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+          })
+          .output('blob')
+          .then((blob: Blob) => {
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+          });
+      } catch (err) {
+        setHasError(true);
+        setErrorMessage(`${err instanceof Error ? err.message : String(err)}`);
+      } finally {
+        setIsPdfMode(false);
+      }
     } else {
       window.print();
     }
@@ -163,6 +171,8 @@ const CardListPDFGenerator = (): ReactElement => {
             disabled={!readyToPrint}
           >
             {i18n.t(PAGES.MAIN.BUTTONS.PRINT)}
+            {/* eslint-disable-next-line */}
+            {isPdfMode && <Ripple size='1em' borderWidth='2px'/>}
           </Button>
         </ActionButtonsContainer>
         {isLoading &&

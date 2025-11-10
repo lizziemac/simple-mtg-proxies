@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Foot = styled.div`
+export const StyledFooter = styled.div`
   width: 100%;
   display: flex;
   position: static;
@@ -21,5 +21,21 @@ export const Foot = styled.div`
   // Hide footer when printing
   @media print {
     display: none !important;
+  }
+`;
+
+export const StyledDisclaimer = styled.div`
+  display: flex;
+  font-size: 0.65em;
+  text-align: center;
+  justify-content: center;
+  padding-bottom: 1em;
+`;
+
+export const StyledDisclaimerText = styled.div`
+  max-width: 40rem;
+  
+  @media screen and (max-width:1000px) {
+    width: 100%;
   }
 `;

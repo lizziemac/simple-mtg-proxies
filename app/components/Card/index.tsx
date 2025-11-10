@@ -30,6 +30,7 @@ const Card = (props: CardProps): ReactElement => {
     // iterate through each regex match for the incoming string
     while ((match = tokenRegex.exec(text)) !== null) {
       const token = match[0];
+      const symbol = token.replaceAll(/[{}]/g, '');
       const index = match.index;
 
       // Push preceding text, if there is any
@@ -37,14 +38,12 @@ const Card = (props: CardProps): ReactElement => {
         parts.push(text.slice(lastIndex, index));
       }
 
-      // Determine replacement SVG
-      const symbol = props.symbolLookup[token];
-      if (symbol) {
-        parts.push(
-          <CardSymbol key={index} name={symbol.name} />
-        );
+      // Determine replacement element
+      const element: ReactElement | null = <CardSymbol key={index} name={symbol} />;
+
+      if (element) {
+        parts.push(element);
       } else {
-        // If no symbol found, just render the token as plain text
         parts.push(token);
       }
 

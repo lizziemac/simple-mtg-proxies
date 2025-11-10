@@ -1,4 +1,4 @@
-import { Size } from 'app/common/constants';
+import { Size } from 'app/constants';
 import styled from 'styled-components';
 
 interface StyledButtonProps {
