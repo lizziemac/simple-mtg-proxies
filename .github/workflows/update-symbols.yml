@@ -33,7 +33,7 @@ jobs:
           pip install requests
 
       - name: Run symbol fetch script
-        run: python add_svgs.py
+        run: python scripts/add_svgs.py
 
       - name: Create pull request
         env:
