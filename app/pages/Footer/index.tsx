@@ -6,6 +6,7 @@ import { StyledFooter, StyledDisclaimer, StyledDisclaimerText } from './styles';
 import GitHubIcon from 'app/common/components/LinkIcon/GitHub';
 import LinkedInIcon from 'app/common/components/LinkIcon/LinkedIn';
 import ThemeToggle from 'app/common/components/ThemeToggle';
+import KoFiIcon from 'app/common/components/LinkIcon/KoFi';
 
 interface FooterProps {
   toggleTheme: () => void;
@@ -23,6 +24,9 @@ const Footer = (props: FooterProps): ReactElement => {
         </LinkIcon>
         <LinkIcon url="https://www.linkedin.com/in/lizzie-mac/">
           <LinkedInIcon />
+        </LinkIcon>
+        <LinkIcon url="https://www.ko-fi.com/lizziemac/">
+          <KoFiIcon />
         </LinkIcon>
         {/* eslint-enable i18next/no-literal-string */}
         <ThemeToggle handleToggle={(): void => props.toggleTheme()} />
