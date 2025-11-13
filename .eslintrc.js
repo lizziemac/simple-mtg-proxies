@@ -38,7 +38,7 @@ module.exports = {
     //ESLint-basic rules
     'block-spacing': ['error', 'always'],
     'brace-style': ['error', '1tbs', {'allowSingleLine': true}],
-    'indent': ['error', 2],
+    'indent': ['error', 2, {"SwitchCase": 1}],
     'linebreak-style': 1,
     'max-len': ['warn', { 'code': 120 }],
     'no-console': ['warn', { allow: ['warn', 'error'] }],

@@ -5,6 +5,7 @@ import { fetchScryfallCardListByNames } from 'app/services/external/scryfall/car
 import {
   Card,
   isDoubleSidedCard,
+  // isDoubleSidedCard,
 } from 'app/types/external/scryfall/card';
 import CardComponent from 'app/components/Card';
 import Loader from 'app/common/components/Loader';

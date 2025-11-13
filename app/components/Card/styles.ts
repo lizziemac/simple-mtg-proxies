@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
+const MTG_CARD_HEIGHT_MM: number = 88;
+const MTG_CARD_WIDTH_MM: number = 63;
+
 export const CardContainer = styled.div`
-  width: 63mm;
-  height: 88mm;
+  width: ${MTG_CARD_WIDTH_MM}mm;
+  height: ${MTG_CARD_HEIGHT_MM}mm;
   border: 1px solid black;
   background-color: white;
   color: black;
@@ -12,6 +15,25 @@ export const CardContainer = styled.div`
   background: white;
   font-family: 'times';
   overflow: hidden;
+`;
+
+export const SplitCardTop = styled.div`
+  height: ${MTG_CARD_HEIGHT_MM/2}mm;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+`;
+
+export const SplitCardBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: ${MTG_CARD_HEIGHT_MM/2}mm;
+`;
+
+export const SplitCardBottomContents = styled.div`
+  transform: rotate(-90deg) translate(-100%, 0%);
+  transform-origin: top left;
+  width: ${MTG_CARD_HEIGHT_MM/2}mm; // IMPORTANT. When transformed, width becomes height.
 `;
 
 export const CardName = styled.div`
@@ -24,7 +46,7 @@ export const CardName = styled.div`
 `;
 
 export const CardType = styled.div`
-  background-color: inherit;
+  background-color: #fff;
   color: inherit;
   margin: -10px 8px 4px 8px;
   padding: 0 4px 0 4px;

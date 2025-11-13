@@ -7,10 +7,17 @@ import {
   CardArt,
   CardText,
   CardFooter,
+  SplitCardTop,
+  SplitCardBottom,
+  SplitCardBottomContents,
 } from './styles';
-import { Card, DoubleSidedCard, SingleSidedCard, isDoubleSidedCard } from 'app/types/external/scryfall/card';
+import {
+  Card,
+  DoubleSidedCard,
+  SingleSidedCard,
+} from 'app/types/external/scryfall/card';
 import { SymbolMap } from 'app/types/external/scryfall/symbol';
-import CardSymbol from '../CardSymbol';
+import CardSymbol from 'app/components/CardSymbol';
 
 interface CardProps {
   card: Card;
@@ -84,6 +91,62 @@ const Card = (props: CardProps): ReactElement => {
     );
   };
 
+  const SplitLayoutCardComponent = (faces: SingleSidedCard[]): JSX.Element => {
+    // only two faces for split layout. let's ensure that's true
+    if (faces.length > 2) {
+      console.error('Unexpected number of faces');
+      return <></>;
+    }
+    const top = faces[0];
+    const bottom = faces[1];
+    return (
+      <CardContainer>
+        <SplitCardTop>
+          <CardName>
+            <div>{top.name}</div>
+            <div>{renderWithSymbols(top.mana_cost)}</div>
+          </CardName>
+          <CardArt />
+          <CardType>{top.type_line}</CardType>
+          <CardText>
+            {top.oracle_text.split('\n').map((line, idx) => (
+              <span key={idx}>
+                {renderWithSymbols(line)}
+                <br />
+              </span>
+            ))}
+          </CardText>
+          <CardFooter>
+            {top.power && top.toughness ? `${top.power}/${top.toughness}` : ''}
+            {top.loyalty ? `${top.loyalty}` : ''}
+          </CardFooter>
+        </SplitCardTop>
+        <SplitCardBottom>
+          <SplitCardBottomContents>
+            <CardName>
+              <div>{bottom.name}</div>
+              <div>{renderWithSymbols(bottom.mana_cost)}</div>
+            </CardName>
+            <CardArt />
+            <CardType>{bottom.type_line}</CardType>
+            <CardText>
+              {bottom.oracle_text.split('\n').map((line, idx) => (
+                <span key={idx}>
+                  {renderWithSymbols(line)}
+                  <br />
+                </span>
+              ))}
+            </CardText>
+            <CardFooter>
+              {bottom.power && bottom.toughness ? `${bottom.power}/${bottom.toughness}` : ''}
+              {bottom.loyalty ? `${bottom.loyalty}` : ''}
+            </CardFooter>
+          </SplitCardBottomContents>
+        </SplitCardBottom>
+      </CardContainer>
+    );
+  };
+
   const DoubleSidedCardComponent = (card: DoubleSidedCard): JSX.Element => {
     return (
       <>
@@ -97,16 +160,22 @@ const Card = (props: CardProps): ReactElement => {
   };
 
 
-  return (
-    <>
-      {isDoubleSidedCard(props.card)
-        // support meld cards later
-        ? DoubleSidedCardComponent(props.card)
-        : SingleSidedCardComponent(props.card)
-      }
-    </>
-  );
+  switch (props.card.layout) {
+    case 'split':
+      return SplitLayoutCardComponent(props.card.card_faces);
 
+    case 'adventure':
+    case 'transform':
+    case 'modal_dfc':
+      return DoubleSidedCardComponent(props.card);
+
+
+    case 'normal':
+    case 'saga':
+    case 'leveler':
+    default:
+      return SingleSidedCardComponent(props.card);
+  }
 };
 
 export default Card;

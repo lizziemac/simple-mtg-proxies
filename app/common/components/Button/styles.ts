@@ -13,27 +13,27 @@ export const StyledButton = styled.button<StyledButtonProps>`
   gap: 0.5em;
   ${({ size }): string => {
     switch (size) {
-    case Size.XS:
-      return `
-        min-width: 60px;
-      `;
-    case Size.S:
-      return `
-        min-width: 80px;
-      `;
-    case Size.L:
-      return `
-        min-width: 120px;
-      `;
-    case Size.XL:
-      return `
-        min-width: 240px;
-      `;
-    case Size.M:
-    default:
-      return `
-        min-width: 100px;
-      `;
+      case Size.XS:
+        return `
+          min-width: 60px;
+        `;
+      case Size.S:
+        return `
+          min-width: 80px;
+        `;
+      case Size.L:
+        return `
+          min-width: 120px;
+        `;
+      case Size.XL:
+        return `
+          min-width: 240px;
+        `;
+      case Size.M:
+      default:
+        return `
+          min-width: 100px;
+        `;
     }
   }}
 

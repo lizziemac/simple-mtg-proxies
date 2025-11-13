@@ -56,6 +56,23 @@ export interface SingleSidedCard extends BaseCard {
 }
 
 /**
+ * Represents a single-sided Magic: The Gathering card that has special formatting,
+ * as defined by Scryfall, THAT WE HANDLE RN
+ */
+export interface SpecialSingleSidedCard extends BaseCard {
+  /**
+   * Layout of the card as defined by Scryfall. The layouts below
+   * are all double-sided card layouts, where both sides have unique card data.
+   */
+  layout: 'split';
+  /**
+   * Array of card faces for the double-sided card. Each face contains its own
+   * set of properties similar to SingleSidedCard.
+   */
+  card_faces: SingleSidedCard[];
+}
+
+/**
  * Represents a double-sided Magic: The Gathering card as defined by Scryfall.
  */
 export interface DoubleSidedCard extends BaseCard {
@@ -63,7 +80,7 @@ export interface DoubleSidedCard extends BaseCard {
    * Layout of the card as defined by Scryfall. The layouts below
    * are all double-sided card layouts, where both sides have unique card data.
    */
-  layout: 'transform' | 'split' | 'adventure' | 'modal_dfc';
+  layout: 'transform'| 'adventure' | 'modal_dfc';
   /**
    * Array of card faces for the double-sided card. Each face contains its own
    * set of properties similar to SingleSidedCard.
@@ -74,15 +91,41 @@ export interface DoubleSidedCard extends BaseCard {
 /**
  * A Magic: The Gathering card, with only the information needed for this application.
  */
-export type Card = SingleSidedCard | DoubleSidedCard;
+export type Card = (
+  SingleSidedCard
+  | SpecialSingleSidedCard
+  | DoubleSidedCard
+);
 
 /**
- * Informs the caller whether the provided card is a double-sided card or not
+ * Informs the caller as to whether the provided card is a double-sided card or not
  * @param card The card to check
  * @returns True if the card is a double-sided card, false otherwise
  */
 export function isDoubleSidedCard(card: Card): card is DoubleSidedCard {
-  return 'card_faces' in card;
+  switch (card.layout) {
+    case 'transform':
+    case 'adventure':
+    case 'modal_dfc':
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Informs the caller as to whether the provided card is a specially formmatted
+ * single-faced card or not.
+ * @param card The card to check
+ * @returns True if the card is single-faced and special
+ */
+export function isSpecialSingleFaceCard(card: Card): card is SpecialSingleSidedCard {
+  switch (card.layout) {
+    case 'split':
+      return true;
+    default:
+      return false;
+  }
 }
 
 // | Layout                         | Needs Special Printing? | Reason                                |
