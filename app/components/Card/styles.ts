@@ -14,7 +14,7 @@ export const CardContainer = styled.div`
   flex-direction: column;
   background: white;
   font-family: 'times';
-  overflow: hidden;
+  overflow: visible;
 `;
 
 export const SplitCardTop = styled.div`
@@ -31,9 +31,12 @@ export const SplitCardBottom = styled.div`
 `;
 
 export const SplitCardBottomContents = styled.div`
+  display: flex;
+  flex-direction: column;
   transform: rotate(-90deg) translate(-100%, 0%);
   transform-origin: top left;
   width: ${MTG_CARD_HEIGHT_MM/2}mm; // IMPORTANT. When transformed, width becomes height.
+  height: ${MTG_CARD_WIDTH_MM}mm; // IMPORTANT
 `;
 
 export const CardName = styled.div`
@@ -64,6 +67,8 @@ export const CardArt = styled.div`
 
 export const CardText = styled.div`
   color: inherit;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   padding: 0px 10px 4px 10px;
   font-size: 3mm;
