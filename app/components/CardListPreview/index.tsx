@@ -128,7 +128,9 @@ const CardListPDFGenerator = (): ReactElement => {
     if (!printArea) return;
 
     if (isMobile() || localStorage.getItem('TESTING_HTML2PDF') === 'true') {
-      //convert to PDF and then open in new window
+      // We need to create the window before we populate it, so that the PDF blob isn't treated as a pop-up!
+      const newWindow = window.open('', '_blank');
+      // Then we populate that window with the PDF contents
       try {
         setIsPdfMode(true);
 
@@ -144,7 +146,9 @@ const CardListPDFGenerator = (): ReactElement => {
           .output('blob')
           .then((blob: Blob) => {
             const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
+            if (newWindow) {
+              newWindow.location.href = url;
+            }
           });
       } catch (err) {
         setHasError(true);
