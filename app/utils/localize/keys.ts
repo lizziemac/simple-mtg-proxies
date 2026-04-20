@@ -31,6 +31,7 @@ export const PAGES = {
     },
     LOADERS: {
       GENERATING_PREVIEW: 'main_loaders_generating_preview',
+      SYNCING_DATABASE: 'main_loaders_syncing_database',
     }
   },
   NOT_FOUND: {

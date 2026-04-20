@@ -169,7 +169,6 @@ const Card = (props: CardProps): ReactElement => {
     case 'modal_dfc':
       return DoubleSidedCardComponent(props.card);
 
-
     case 'normal':
     case 'saga':
     case 'leveler':

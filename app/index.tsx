@@ -11,6 +11,9 @@ import { useTheme } from 'app/utils/hooks/useTheme';
 import Pages from './pages';
 import i18n from './utils/localize';
 
+import { dbReadyPromise } from 'app/services/external/scryfall/cards';
+void dbReadyPromise; // Start getting the bulk data on app load
+
 export const App = ({ callback }: { callback: () => void}): ReactElement => {
   const { theme, toggleTheme, isMounted } = useTheme();
 

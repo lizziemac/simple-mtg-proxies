@@ -2,11 +2,19 @@
  * Types for Scryfall card data as used in this application.
  * See https://scryfall.com/docs/api/cards for full Scryfall API documentation.
  */
+
+/**
+ *
+ */
 interface BaseCard {
   /**
    * Scryfall unique identifier for this card
    */
   id: string;
+  /**
+   * The generic name of the card, used for lookups
+   */
+  common_name: string;
   /**
    * Number of copies of this card in the requested list
    */
@@ -23,32 +31,32 @@ export interface SingleSidedCard extends BaseCard {
    */
   layout: 'normal' | 'saga' | 'leveler';
   /**
-   * Name of the card (e.g., "Black Lotus")
+   * Name of the card face (e.g., 'Black Lotus')
    */
   name: string;
   /**
-   * Mana cost of the card (e.g., "{0}" for land cards, "{3}{U}{U}" for a spell that costs 3 generic and 2 blue mana)
+   * Mana cost of the card (e.g., '{0}' for land cards, '{3}{U}{U}' for a spell that costs 3 generic and 2 blue mana)
    */
   mana_cost: string;
   /**
-   * Type line of the card (e.g., "Creature — Elf Druid" or "Sorcery")
+   * Type line of the card (e.g., 'Creature — Elf Druid' or 'Sorcery')
    */
   type_line: string;
   /**
-   * Power of the card, if applicable (e.g., "3" for a 3/4 creature)
+   * Power of the card, if applicable (e.g., '3' for a 3/4 creature)
    */
   power?: string;
   /**
-   * Toughness of the card, if applicable (e.g., "4" for a 3/4 creature)
+   * Toughness of the card, if applicable (e.g., '4' for a 3/4 creature)
    */
   toughness?: string;
   /**
-   * Loyalty of the card, if applicable (e.g., "5" for a planeswalker)
+   * Loyalty of the card, if applicable (e.g., '5' for a planeswalker)
    */
   loyalty?: string;
   /**
    * Oracle text of the card (the official rules text). This may include
-   * special symbols represented in curly braces (e.g., "{T}" for tap symbol, "{W}" for white mana symbol, etc.)
+   * special symbols represented in curly braces (e.g., '{T}' for tap symbol, '{W}' for white mana symbol, etc.)
    *
    * This text may include the special capabilities (like loyalty counters for planeswalkers, etc.)
    */
@@ -139,3 +147,58 @@ export function isSpecialSingleFaceCard(card: Card): card is SpecialSingleSidedC
 // | `meld`                         | Mild                    | Print each piece separately           |
 // | `aftermath`                    | **Yes**                 | Stacked halves, bottom rotated        |
 // | `battle`, `prototype`, `token` | No / Formatting only    | Normal card proportions               |
+
+export type BulkDataMeta = {
+  /**
+   * The type of the bulk data group, like default cards, oracle cards, all cards, etc;
+   * aligns with the name.
+   */
+  type: string;
+  /**
+   * The last time the bulk data was updated
+   */
+  updated_at: string;
+  /**
+   * The download URI for the data file
+   */
+  download_uri: string;
+  /**
+   * The type of content, used when making the request
+   */
+  content_type: string;
+  /**
+   * The encoding method used, helpful for decompressing after download
+   */
+  content_encoding: string;
+};
+
+/**
+ * Metadata for the bulk data objects that Scryfall updates once a day
+ */
+export type BulkDataMetaResponse = {
+  /**
+   * The list of bulk data items
+   */
+  data: BulkDataMeta[];
+};
+
+export type ScryfallCard = {
+  id: string;
+  name: string;
+  layout: 'normal' | 'split' | 'transform'| 'adventure' | 'modal_dfc';
+  mana_cost?: string;
+  type_line?: string;
+  oracle_text?: string;
+  power?: string;
+  toughness?: string;
+  loyalty?: string;
+  card_faces?: {
+    name: string;
+    mana_cost: string;
+    type_line: string;
+    oracle_text: string;
+    power?: string;
+    toughness?: string;
+    loyalty?: string;
+  }[];
+};

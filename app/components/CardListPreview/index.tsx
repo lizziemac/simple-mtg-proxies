@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 
-import { fetchScryfallCardListByNames } from 'app/services/external/scryfall/card';
+import { lookupCards, dbReadyPromise } from 'app/services/external/scryfall/cards';
 import {
   Card,
   isDoubleSidedCard,
@@ -38,6 +38,11 @@ const CardListPDFGenerator = (): ReactElement => {
   const printAreaRef = useRef<HTMLDivElement>(null);
   const lastPageRef = useRef<HTMLDivElement>(null);
   const [symbolLookup, setSymbolLookup] = useState<SymbolMap>({});
+  const [isDbReady, setIsDbReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    void dbReadyPromise.then(() => setIsDbReady(true)).catch(() => setIsDbReady(true));
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -110,7 +115,7 @@ const CardListPDFGenerator = (): ReactElement => {
     setCardData([]);
 
     try {
-      const cards = await fetchScryfallCardListByNames(uniqueCards);
+      const cards = await lookupCards(uniqueCards);
       setCardData(cards);
     } catch (error) {
       setHasError(true);
@@ -173,7 +178,7 @@ const CardListPDFGenerator = (): ReactElement => {
           <Button
             size={Size.M}
             onClick={() => void fetchCardData()}
-            disabled={isLoading || cardList.length === 0 || uniqueCards.size > 120 || readyToPrint}
+            disabled={!isDbReady || isLoading || cardList.length === 0 || uniqueCards.size > 120 || readyToPrint}
           >
             {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
           </Button>
@@ -187,6 +192,9 @@ const CardListPDFGenerator = (): ReactElement => {
             {isPdfMode && <Ripple size='1em' borderWidth='2px'/>}
           </Button>
         </ActionButtonsContainer>
+        {!isDbReady &&
+          <Loader message={i18n.t(PAGES.MAIN.LOADERS.SYNCING_DATABASE)} height='20vh'/>
+        }
         {isLoading &&
           <Loader message={i18n.t(PAGES.MAIN.LOADERS.GENERATING_PREVIEW)} height='20vh'/>
         }

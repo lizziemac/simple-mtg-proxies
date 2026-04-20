@@ -20,5 +20,6 @@ export default {
   [PAGES.MAIN.INPUT_LENGTH_ERROR]: 'Please only enter less than 120 unique cards at a time.',
   [PAGES.MAIN.BUTTONS.GENERATE_PREVIEW]: 'PREVIEW',
   [PAGES.MAIN.BUTTONS.PRINT]: 'PRINT',
-  [PAGES.MAIN.LOADERS.GENERATING_PREVIEW]: 'Generating preview...'
+  [PAGES.MAIN.LOADERS.GENERATING_PREVIEW]: 'Generating preview...',
+  [PAGES.MAIN.LOADERS.SYNCING_DATABASE]: 'Syncing card database...'
 };
