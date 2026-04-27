@@ -14,6 +14,7 @@ interface FooterProps {
 
 const Footer = (props: FooterProps): ReactElement => {
   const currentYear = new Date().getFullYear();
+
   return (
     <>
       <StyledFooter>

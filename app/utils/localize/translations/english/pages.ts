@@ -1,6 +1,10 @@
 import { PAGES } from 'app/utils/localize/keys';
 
 export default {
+  [PAGES.FOOTER.SYNC_DB]: 'Sync Card Database',
+  [PAGES.FOOTER.SYNC_DB_SYNCING]: 'Syncing...',
+  [PAGES.FOOTER.SYNC_DB_SUCCESS]: 'Database synced',
+  [PAGES.FOOTER.SYNC_DB_ERROR]: 'Sync failed',
   [PAGES.FOOTER.COPYRIGHT]: '© {{year}} Liz MacLean',
   [PAGES.FOOTER.DISCLAIMER]: (
     'This project is not affliated with Wizards of the Coast. '

@@ -112,5 +112,8 @@ export const lookupCards = async (cards: Map<string, number>): Promise<Card[]> =
   return results.map(r => r.card as Card);
 };
 
-// This will only get called once on first module import
-export const dbReadyPromise = downloadAndStoreBulkData();
+export const checkDbPopulated = async (): Promise<boolean> => {
+  const storage = await storagePromise;
+  const updatedAt = await storage.get<string>(META_STORE, 'updated_at');
+  return updatedAt !== null;
+};

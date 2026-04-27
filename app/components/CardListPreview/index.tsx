@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 
-import { lookupCards, dbReadyPromise } from 'app/services/external/scryfall/cards';
+import { lookupCards, checkDbPopulated, downloadAndStoreBulkData } from 'app/services/external/scryfall/cards';
 import {
   Card,
   isDoubleSidedCard,
@@ -39,9 +39,24 @@ const CardListPDFGenerator = (): ReactElement => {
   const lastPageRef = useRef<HTMLDivElement>(null);
   const [symbolLookup, setSymbolLookup] = useState<SymbolMap>({});
   const [isDbReady, setIsDbReady] = useState<boolean>(false);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+
+  const handleSync = async (): Promise<void> => {
+    setIsSyncing(true);
+    try {
+      await downloadAndStoreBulkData();
+      setIsDbReady(true);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   useEffect(() => {
-    void dbReadyPromise.then(() => setIsDbReady(true)).catch(() => setIsDbReady(true));
+    void checkDbPopulated().then(setIsDbReady);
+
+    const handler = (): void => setIsDbReady(true);
+    window.addEventListener('db-synced', handler);
+    return (): void => window.removeEventListener('db-synced', handler);
   }, []);
 
   useEffect(() => {
@@ -175,6 +190,13 @@ const CardListPDFGenerator = (): ReactElement => {
           onChange={setCardList}
         />
         <ActionButtonsContainer>
+          <Button
+            size={Size.S}
+            onClick={() => void handleSync()}
+            disabled={isSyncing}
+          >
+            {isSyncing ? i18n.t(PAGES.MAIN.LOADERS.SYNCING_DATABASE) : i18n.t(PAGES.FOOTER.SYNC_DB)}
+          </Button>
           <Button
             size={Size.M}
             onClick={() => void fetchCardData()}
