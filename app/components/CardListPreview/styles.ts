@@ -24,10 +24,33 @@ export const PreviewContainer = styled.div`
 export const ActionButtonsContainer = styled.div`
   display: flex;
   gap: 0.5rem;
-  justify-content: right;
+  justify-content: left;
+  align-items: center;
 
   @media screen and (max-width: 1000px) {
     gap: 1rem;
+    flex-direction: column;
+  }
+`;
+
+export const SyncHint = styled.p`
+  margin: 0;
+  color: ${({ theme }): string => theme.inputPlaceholderColor};
+`;
+
+export const SyncLink = styled.button`
+  display: inline;
+  background: none;
+  border: none;
+  font-size: inherit;
+  color: ${({ theme }): string => theme.primaryColor};
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 

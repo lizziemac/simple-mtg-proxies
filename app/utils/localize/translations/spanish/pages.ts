@@ -1,6 +1,7 @@
 import { PAGES } from 'app/utils/localize/keys';
 
 export default {
+  [PAGES.FOOTER.SYNC_DB_HINT]: '¿Faltan cartas?',
   [PAGES.FOOTER.COPYRIGHT]: '© {{year}} Liz MacLean',
   [PAGES.FOOTER.DISCLAIMER]: (
     'Este proyecto no está afiliado con Wizards of the Coast. '

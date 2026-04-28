@@ -19,6 +19,7 @@ export const PAGES = {
   FOOTER: {
     COPYRIGHT: 'footer_copyright',
     DISCLAIMER: 'footer_disclaimer',
+    SYNC_DB_HINT: 'footer_sync_db_hint',
     SYNC_DB: 'footer_sync_db',
     SYNC_DB_SYNCING: 'footer_sync_db_syncing',
     SYNC_DB_SUCCESS: 'footer_sync_db_success',

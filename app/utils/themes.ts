@@ -2,11 +2,11 @@ import { DefaultTheme } from 'styled-components';
 
 // Desktop
 const fontSize = '16px';
-const h1FontSize = 'calc(1.5vmin)';
+const h1FontSize = '50px';
 
 // Mobile
-const mediaFontSize = 'calc(20px + 2vmin)';
-const h1MediaFontSize = 'calc(40px + 2vmin)';
+const mediaFontSize = '50px';
+const h1MediaFontSize = '50px';
 
 // https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=FFFFFF
 export const lightTheme: DefaultTheme = {

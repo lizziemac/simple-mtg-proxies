@@ -1,6 +1,7 @@
 import { PAGES } from 'app/utils/localize/keys';
 
 export default {
+  [PAGES.FOOTER.SYNC_DB_HINT]: 'Missing cards?',
   [PAGES.FOOTER.SYNC_DB]: 'Sync Card Database',
   [PAGES.FOOTER.SYNC_DB_SYNCING]: 'Syncing...',
   [PAGES.FOOTER.SYNC_DB_SUCCESS]: 'Database synced',

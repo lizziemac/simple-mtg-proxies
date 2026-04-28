@@ -11,7 +11,15 @@ import CardComponent from 'app/components/Card';
 import Loader from 'app/common/components/Loader';
 import Button from 'app/common/components/Button';
 
-import { PrintArea, Page, PreviewContainerParent, PreviewContainer, ActionButtonsContainer } from './styles';
+import {
+  PrintArea,
+  Page,
+  PreviewContainerParent,
+  PreviewContainer,
+  ActionButtonsContainer,
+  SyncHint,
+  SyncLink
+} from './styles';
 import CardListInput from '../CardListInput';
 
 import { Size } from 'app/constants';
@@ -191,13 +199,6 @@ const CardListPDFGenerator = (): ReactElement => {
         />
         <ActionButtonsContainer>
           <Button
-            size={Size.S}
-            onClick={() => void handleSync()}
-            disabled={isSyncing}
-          >
-            {isSyncing ? i18n.t(PAGES.MAIN.LOADERS.SYNCING_DATABASE) : i18n.t(PAGES.FOOTER.SYNC_DB)}
-          </Button>
-          <Button
             size={Size.M}
             onClick={() => void fetchCardData()}
             disabled={!isDbReady || isLoading || cardList.length === 0 || uniqueCards.size > 120 || readyToPrint}
@@ -213,6 +214,12 @@ const CardListPDFGenerator = (): ReactElement => {
             {/* eslint-disable-next-line */}
             {isPdfMode && <Ripple size='1em' borderWidth='2px'/>}
           </Button>
+          <SyncHint>
+            {i18n.t(PAGES.FOOTER.SYNC_DB_HINT)}{' '}
+            <SyncLink onClick={() => void handleSync()} disabled={isSyncing}>
+              {isSyncing ? i18n.t(PAGES.FOOTER.SYNC_DB_SYNCING) : i18n.t(PAGES.FOOTER.SYNC_DB)}
+            </SyncLink>
+          </SyncHint>
         </ActionButtonsContainer>
         {!isDbReady &&
           <Loader message={i18n.t(PAGES.MAIN.LOADERS.SYNCING_DATABASE)} height='20vh'/>
