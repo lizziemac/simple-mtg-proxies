@@ -112,8 +112,7 @@ export const lookupCards = async (cards: Map<string, number>): Promise<Card[]> =
   return results.map(r => r.card as Card);
 };
 
-export const checkDbPopulated = async (): Promise<boolean> => {
+export const checkDbPopulated = async (): Promise<string | null> => {
   const storage = await storagePromise;
-  const updatedAt = await storage.get<string>(META_STORE, 'updated_at');
-  return updatedAt !== null;
+  return await storage.get<string>(META_STORE, 'updated_at');
 };

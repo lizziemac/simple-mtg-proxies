@@ -26,7 +26,7 @@ import CardListInput from '../CardListInput';
 
 import { Size } from 'app/constants';
 import i18n, { PAGES } from 'app/utils/localize';
-import { isMobile } from 'app/utils/helpers';
+import { isDayOldOrSooner, isMobile } from 'app/utils/helpers';
 import { getSymbolLookup } from 'app/services/external/scryfall/symbol';
 import { SymbolMap } from 'app/types/external/scryfall/symbol';
 import { Ripple } from 'app/common/components/Ripple';
@@ -50,6 +50,7 @@ const CardListPDFGenerator = (): ReactElement => {
   const [symbolLookup, setSymbolLookup] = useState<SymbolMap>({});
   const [isDbReady, setIsDbReady] = useState<boolean>(false);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [isSyncToDate, setIsSyncToDate] = useState<boolean>(false);
   const [isInputVisible, setIsInputVisible] = useState<boolean>(true);
 
   const handleSync = async (): Promise<void> => {
@@ -57,17 +58,24 @@ const CardListPDFGenerator = (): ReactElement => {
     try {
       await downloadAndStoreBulkData();
       setIsDbReady(true);
+      setIsSyncToDate(true);
     } finally {
       setIsSyncing(false);
     }
   };
 
   useEffect(() => {
-    void checkDbPopulated().then(setIsDbReady);
-
-    const handler = (): void => setIsDbReady(true);
-    window.addEventListener('db-synced', handler);
-    return (): void => window.removeEventListener('db-synced', handler);
+    let active = true;
+    void checkDbPopulated().then(async (updatedAt: string | null) => {
+      if (!active) return;
+      if (updatedAt == null) {
+        await handleSync();
+        return;
+      }
+      setIsDbReady(true);
+      setIsSyncToDate(isDayOldOrSooner(updatedAt));
+    });
+    return (): void => { active = false; };
   }, []);
 
   useEffect(() => {
@@ -218,7 +226,7 @@ const CardListPDFGenerator = (): ReactElement => {
           <Button
             size={Size.M}
             onClick={() => void fetchCardData()}
-            disabled={!isDbReady || isLoading || cardList.length === 0 || uniqueCards.size > 120 || readyToPrint}
+            disabled={!isDbReady || isLoading || cardList.length === 0 || readyToPrint}
           >
             {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
           </Button>
@@ -233,16 +241,15 @@ const CardListPDFGenerator = (): ReactElement => {
               {isPdfMode && <Ripple size='1em' borderWidth='2px'/>}
             </Button>
           }
-          <SyncHint>
-            {i18n.t(PAGES.FOOTER.SYNC_DB_HINT)}{' '}
-            <SyncLink onClick={() => void handleSync()} disabled={isSyncing}>
-              {isSyncing ? i18n.t(PAGES.FOOTER.SYNC_DB_SYNCING) : i18n.t(PAGES.FOOTER.SYNC_DB)}
-            </SyncLink>
-          </SyncHint>
+          {!isSyncToDate &&
+            <SyncHint>
+              {i18n.t(PAGES.FOOTER.SYNC_DB_HINT)}{' '}
+              <SyncLink onClick={() => void handleSync()} disabled={isSyncing}>
+                {isSyncing ? i18n.t(PAGES.FOOTER.SYNC_DB_SYNCING) : i18n.t(PAGES.FOOTER.SYNC_DB)}
+              </SyncLink>
+            </SyncHint>
+          }
         </ActionButtonsContainer>
-        {!isDbReady &&
-          <Loader message={i18n.t(PAGES.MAIN.LOADERS.SYNCING_DATABASE)} height='20vh'/>
-        }
         {isLoading &&
           <Loader message={i18n.t(PAGES.MAIN.LOADERS.GENERATING_PREVIEW)} height='20vh'/>
         }
