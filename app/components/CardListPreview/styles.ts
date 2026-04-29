@@ -117,6 +117,7 @@ export const Page = styled.div<PageProps>`
   width: ${({ paper }): string => `${paper.width}mm`};
   height: ${({ paper }): string => `${paper.height}mm`};
   display: grid;
+  gap: 1px;
   grid-template-columns: ${({ card }): string => `repeat(3, ${card.width}mm)`};
   grid-template-rows: ${({ card }): string => `repeat(3, ${card.height}mm)`};
   justify-content: center;
