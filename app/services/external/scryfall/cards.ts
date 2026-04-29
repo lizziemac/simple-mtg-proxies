@@ -4,7 +4,7 @@ import { Card, BulkDataMetaResponse, BulkDataMeta, ScryfallCard } from 'app/type
 import { CARDS_STORE, META_STORE, storagePromise } from 'app/utils/storage/indexeddb';
 
 // eslint-disable-next-line i18next/no-literal-string
-const DEFAULT_CARD_BULK_DATA_TYPE = 'default_cards';
+const DEFAULT_CARD_BULK_DATA_TYPE = 'oracle_cards';
 
 /**
  * Get the metadata for the bulk card data we want (e.g. the defaults cards list)

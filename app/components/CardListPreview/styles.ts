@@ -33,6 +33,22 @@ export const ActionButtonsContainer = styled.div`
   }
 `;
 
+export const SiteTitle = styled.h1`
+  font-family: 'Cinzel Decorative', serif;
+  margin: 0;
+  color: ${({ theme }): string => theme.primaryColor};
+`;
+
+export const EditListLink = styled.button`
+  background: none;
+  border: none;
+  font-size: inherit;
+  color: ${({ theme }): string => theme.primaryColor};
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+`;
+
 export const SyncHint = styled.p`
   margin: 0;
   color: ${({ theme }): string => theme.inputPlaceholderColor};

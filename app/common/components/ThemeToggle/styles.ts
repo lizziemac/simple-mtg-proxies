@@ -7,10 +7,10 @@ const Button = styled.button`
   padding: 0 !important;
   cursor: pointer;
   color: ${({ theme }): string => theme.textColor};
-  font-size: ${({ theme }): string => theme.h1FontSize};
+  font-size: ${({ theme }): string => theme.fontSize};
 
   @media only screen and (max-width:1000px){
-    font-size: ${({ theme }): string => theme.h1MediaFontSize};
+    font-size: ${({ theme }): string => theme.mediaFontSize};
   }
 `;
 export default Button;

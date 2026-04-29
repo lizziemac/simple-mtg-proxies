@@ -18,7 +18,9 @@ import {
   PreviewContainer,
   ActionButtonsContainer,
   SyncHint,
-  SyncLink
+  SyncLink,
+  EditListLink,
+  SiteTitle,
 } from './styles';
 import CardListInput from '../CardListInput';
 
@@ -48,6 +50,7 @@ const CardListPDFGenerator = (): ReactElement => {
   const [symbolLookup, setSymbolLookup] = useState<SymbolMap>({});
   const [isDbReady, setIsDbReady] = useState<boolean>(false);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [isInputVisible, setIsInputVisible] = useState<boolean>(true);
 
   const handleSync = async (): Promise<void> => {
     setIsSyncing(true);
@@ -89,6 +92,11 @@ const CardListPDFGenerator = (): ReactElement => {
   useEffect(() => {
     setHasError(false);
     setErrorMessage('');
+    if (cardList.length === 0) {
+      setCardData([]);
+      setPages([]);
+      setIsInputVisible(true);
+    }
     const unique: Map<string, number> = new Map<string, number>();
     for (const cardName of cardList) {
       unique.set(
@@ -113,6 +121,7 @@ const CardListPDFGenerator = (): ReactElement => {
   useEffect(() => {
     if (pages.length > 0 && lastPageRef.current) {
       setReadyToPrint(true);
+      setIsInputVisible(false);
     }
   }, [pages]);
 
@@ -192,11 +201,19 @@ const CardListPDFGenerator = (): ReactElement => {
   return (
     <PreviewContainerParent>
       <PreviewContainer>
+        <SiteTitle>{i18n.t(PAGES.MAIN.TITLE)}</SiteTitle>
         <p>{i18n.t(PAGES.MAIN.DESCRIPTION)}</p>
-        <CardListInput
-          cardList={cardList}
-          onChange={setCardList}
-        />
+        <div style={{ display: isInputVisible ? 'block' : 'none' }}>
+          <CardListInput
+            cardList={cardList}
+            onChange={setCardList}
+          />
+        </div>
+        {!isInputVisible && (
+          <EditListLink onClick={() => { setIsInputVisible(true); setReadyToPrint(false); }}>
+            {i18n.t(PAGES.MAIN.BUTTONS.EDIT_CARD_LIST)}
+          </EditListLink>
+        )}
         <ActionButtonsContainer>
           <Button
             size={Size.M}
@@ -205,15 +222,17 @@ const CardListPDFGenerator = (): ReactElement => {
           >
             {i18n.t(PAGES.MAIN.BUTTONS.GENERATE_PREVIEW)}
           </Button>
-          <Button
-            size={Size.M}
-            onClick={() => void handlePrint()}
-            disabled={!readyToPrint}
-          >
-            {i18n.t(PAGES.MAIN.BUTTONS.PRINT)}
-            {/* eslint-disable-next-line */}
-            {isPdfMode && <Ripple size='1em' borderWidth='2px'/>}
-          </Button>
+          {pages.length > 0 &&
+            <Button
+              size={Size.M}
+              onClick={() => void handlePrint()}
+              disabled={!readyToPrint}
+            >
+              {i18n.t(PAGES.MAIN.BUTTONS.PRINT)}
+              {/* eslint-disable-next-line */}
+              {isPdfMode && <Ripple size='1em' borderWidth='2px'/>}
+            </Button>
+          }
           <SyncHint>
             {i18n.t(PAGES.FOOTER.SYNC_DB_HINT)}{' '}
             <SyncLink onClick={() => void handleSync()} disabled={isSyncing}>

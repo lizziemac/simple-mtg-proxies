@@ -1,6 +1,7 @@
 import { PAGES } from 'app/utils/localize/keys';
 
 export default {
+  [PAGES.MAIN.TITLE]: 'Proxies Simples de MtG',
   [PAGES.FOOTER.SYNC_DB_HINT]: '¿Faltan cartas?',
   [PAGES.FOOTER.COPYRIGHT]: '© {{year}} Liz MacLean',
   [PAGES.FOOTER.DISCLAIMER]: (
@@ -25,4 +26,8 @@ export default {
   [PAGES.MAIN.INPUT_LENGTH_ERROR]: 'Por favor, ingrese menos de 120 tarjetas a la vez.',
   [PAGES.MAIN.BUTTONS.GENERATE_PREVIEW]: 'Previa',
   [PAGES.MAIN.BUTTONS.PRINT]: 'Imprimir',
+  [PAGES.MAIN.BUTTONS.PASTE]: 'Pegar',
+  [PAGES.MAIN.BUTTONS.ENTER_MANUALLY]: 'Ingresar manualmente',
+  [PAGES.MAIN.BUTTONS.CLEAR]: 'Limpiar',
+  [PAGES.MAIN.BUTTONS.EDIT_CARD_LIST]: 'Editar lista de cartas',
 };

@@ -20,11 +20,16 @@ export default {
     + 'Scryfall or Wizards of the Coast.'
   ),
   [PAGES.NOT_FOUND.TITLE]: 'Oops! Page not found!',
+  [PAGES.MAIN.TITLE]: 'Simple MtG Proxies',
   [PAGES.MAIN.DESCRIPTION]: 'Generate simple Magic: The Gathering proxies for playtesting',
   [PAGES.MAIN.INPUT_ERROR]: 'Format currently only supports lines starting with a quantity followed by the card name.',
   [PAGES.MAIN.INPUT_LENGTH_ERROR]: 'Please only enter less than 120 unique cards at a time.',
-  [PAGES.MAIN.BUTTONS.GENERATE_PREVIEW]: 'PREVIEW',
-  [PAGES.MAIN.BUTTONS.PRINT]: 'PRINT',
+  [PAGES.MAIN.BUTTONS.GENERATE_PREVIEW]: 'Preview',
+  [PAGES.MAIN.BUTTONS.PRINT]: 'Print',
+  [PAGES.MAIN.BUTTONS.PASTE]: 'Paste',
+  [PAGES.MAIN.BUTTONS.ENTER_MANUALLY]: 'Enter manually',
+  [PAGES.MAIN.BUTTONS.CLEAR]: 'Clear',
+  [PAGES.MAIN.BUTTONS.EDIT_CARD_LIST]: 'Edit card list',
   [PAGES.MAIN.LOADERS.GENERATING_PREVIEW]: 'Generating preview...',
   [PAGES.MAIN.LOADERS.SYNCING_DATABASE]: 'Syncing card database...'
 };

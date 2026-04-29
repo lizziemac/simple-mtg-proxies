@@ -43,7 +43,12 @@ export const GlobalStyles = createGlobalStyle`
 
 
   h1 {
-    text-align: center;
+    font-size: 3.5rem;
+
+    @media only screen and (min-width: 1000px) {
+      font-size: 2rem;
+    }
+    padding-top: 48px;
   }
 
   * {

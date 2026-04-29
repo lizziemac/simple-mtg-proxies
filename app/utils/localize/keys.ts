@@ -27,12 +27,17 @@ export const PAGES = {
   },
   MAIN: {
     NAV_LINK: 'main_nav_link',
+    TITLE: 'main_title',
     DESCRIPTION: 'main_description',
     INPUT_ERROR: 'main_input_error',
     INPUT_LENGTH_ERROR: 'main_input_length_error',
     BUTTONS: {
       GENERATE_PREVIEW: 'main_buttons_generate_preview',
       PRINT: 'main_buttons_PRINT',
+      PASTE: 'main_buttons_paste',
+      ENTER_MANUALLY: 'main_buttons_enter_manually',
+      CLEAR: 'main_buttons_clear',
+      EDIT_CARD_LIST: 'main_buttons_edit_card_list',
     },
     LOADERS: {
       GENERATING_PREVIEW: 'main_loaders_generating_preview',
