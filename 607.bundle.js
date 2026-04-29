@@ -171,6 +171,7 @@
   width: ${({paper:e})=>`${e.width}mm`};
   height: ${({paper:e})=>`${e.height}mm`};
   display: grid;
+  gap: 1px;
   grid-template-columns: ${({card:e})=>`repeat(3, ${e.width}mm)`};
   grid-template-rows: ${({card:e})=>`repeat(3, ${e.height}mm)`};
   justify-content: center;
